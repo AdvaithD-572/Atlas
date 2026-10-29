@@ -1,0 +1,49 @@
+# Use with compose.yaml. This local packaging profile intentionally has models off.
+x-runtime: &runtime
+  image: atlas-app:local
+  build: .
+  user: "${ATLAS_RUNTIME_UID:-10001}:${ATLAS_RUNTIME_GID:-10001}"
+  environment:
+    ATLAS_POSTGRES_DSN_PATH: /run/atlas/runtime.dsn
+    ATLAS_CREDENTIALS_PATH: /run/atlas/credentials.json
+  volumes:
+    - ./.local/credentials.json:/run/atlas/credentials.json:ro
+    - ./.local/runtime-container.dsn:/run/atlas/runtime.dsn:ro
+  read_only: true
+  tmpfs:
+    - /tmp:size=32m,mode=1777
+  cap_drop: [ALL]
+  security_opt:
+    - no-new-privileges:true
+  mem_limit: 512m
+  cpus: 1.0
+  pids_limit: 64
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  api:
+    <<: *runtime
+    ports:
+      - "127.0.0.1:8080:8000"
+  worker:
+    <<: *runtime
+    command: ["python", "-m", "atlas.worker", "run"]
+    healthcheck:
+      test: ["CMD", "python", "-m", "atlas.worker", "health"]
+      interval: 10s
+      timeout: 8s
+      start_period: 15s
+      retries: 3
+  migrate:
+    <<: *runtime
+    environment:
+      ATLAS_POSTGRES_DSN: postgresql://atlas:${ATLAS_POSTGRES_PASSWORD:?Generate local PostgreSQL credentials first}@postgres:5432/atlas
+      ATLAS_CREDENTIALS_PATH: /run/atlas/credentials.json
+    volumes:
+      - ./.local/credentials.json:/run/atlas/credentials.json:ro
+    profiles: [tools]
+    command: ["python", "-m", "atlas.worker", "migrate"]
+    healthcheck:
+      disable: true

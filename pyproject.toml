@@ -1,0 +1,34 @@
+[project]
+name = "atlas-knowledge"
+version = "0.1.0"
+description = "Grounded knowledge platform — local development foundation"
+requires-python = ">=3.13,<3.15"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "uvicorn>=0.34,<1",
+    "pydantic-settings>=2.8,<3",
+    "psycopg[binary]>=3.2,<4",
+    "httpx>=0.28,<1",
+    "pypdf>=6.21.2,<7",
+]
+
+[dependency-groups]
+dev = ["httpx>=0.28,<1", "pytest>=8.3,<10", "pytest-cov>=6,<8", "ruff>=0.11,<1", "mypy>=1.15,<2", "pip-audit>=2.9,<3"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+files = ["atlas"]
+

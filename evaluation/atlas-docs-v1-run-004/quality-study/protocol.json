@@ -1,0 +1,43 @@
+{
+  "official": false,
+  "human_reviewed": false,
+  "holdout": false,
+  "dataset_hash": "576b483d19333a6af28cb49bca72a1f0b5f63ff3d5ab885166edaf00c1e4f46a",
+  "corpus_hash": "4ecf25e3de9b3ea87c67116bf32dd3c1bc814095dbefa56c641687d312ea9f05",
+  "generator": {
+    "mode": "hybrid",
+    "k": 5,
+    "retrieval_version": "rrf60-depth20-v1",
+    "experiment_id": "automated-quality-study",
+    "corpus_version": "atlas-docs-v1",
+    "chunking_version": "utf8-literal-v1-400-80",
+    "model_id": "all-minilm:latest",
+    "model_digest": "1b226e2802dbb772b5fc32a58f103ca1804ef7501331012de126ab22f67475ef",
+    "generate_answers": true,
+    "generation_model_id": "qwen3:1.7b",
+    "generation_model_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+    "prompt_version": "extractive-grounding-v2"
+  },
+  "study_model": "qwen3:1.7b",
+  "study_model_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+  "reranker_prompt": "listwise-relevance-v1",
+  "judge_prompt": "fact-relevance-status-v2-exact-counts",
+  "candidate_depth": 20,
+  "k": 5,
+  "temperature": 0,
+  "seed": 0,
+  "workload": "serial, shared local host",
+  "retention_gate": {
+    "recall_gain_min": 0.02,
+    "mrr_regression_max": 0,
+    "additional_failures_max": 0,
+    "added_p95_ms_max": 2000
+  },
+  "limitations": [
+    "AI draft labels",
+    "same generator and judge",
+    "no human calibration",
+    "canonical spans omit equivalent relevant passages",
+    "no untouched holdout"
+  ]
+}

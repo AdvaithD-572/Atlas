@@ -1,0 +1,54 @@
+name: Atlas checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: pgvector/pgvector:0.8.7-pg17-bookworm@sha256:ac08538c6f8b9904c33c8224c5e5706dbe760aca29db1d096972b4052c22a75d
+        env:
+          POSTGRES_USER: atlas
+          POSTGRES_DB: atlas
+          # Disposable CI-only credential. Never use this for retained data.
+          POSTGRES_PASSWORD: atlas-ci-disposable
+          POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256 --auth-local=scram-sha-256
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U atlas -d atlas"
+          --health-interval 5s --health-timeout 3s --health-retries 15
+    env:
+      ATLAS_TEST_POSTGRES_DSN: postgresql://atlas:atlas-ci-disposable@127.0.0.1:5432/atlas
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: "0.12.19"
+          python-version: "3.14.7"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24.21.0"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: uv sync --locked
+      - run: uv run --locked python -m scripts.verify
+      - run: uv run --locked pip-audit --progress-spinner off
+      - run: npm ci
+        working-directory: frontend
+      - run: npm test && npm run test:contract && npm run build && npm audit
+        working-directory: frontend
+      - run: docker build -t atlas-app:local .
+      - name: Packaged worker, recovery and TLS checks
+        run: uv run --locked python -m scripts.package_checks --initialize
+      - name: Private Linux credential ownership
+        run: uv run --locked python -m scripts.linux_permissions_smoke
+      - name: Stop disposable CI containers (preserve volumes)
+        if: always()
+        run: |
+          if test -f .local/postgres.env; then
+            docker compose --env-file .local/postgres.env -f compose.yaml -f compose.app.yaml down
+          fi

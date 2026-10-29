@@ -1,0 +1,15 @@
+# Opt-in locally verified TLS. Supply operator-managed certificates outside local drills.
+services:
+  api:
+    ports: !override
+      - "127.0.0.1:8443:8443"
+    volumes:
+      - ./.local/tls/server.crt:/run/atlas/server.crt:ro
+      - ./.local/tls/server.key:/run/atlas/server.key:ro
+    command: ["python", "-m", "uvicorn", "atlas.main:create_app", "--factory", "--host", "0.0.0.0", "--port", "8443", "--ssl-certfile", "/run/atlas/server.crt", "--ssl-keyfile", "/run/atlas/server.key", "--no-access-log", "--limit-concurrency", "16", "--timeout-keep-alive", "5"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import ssl,urllib.request; urllib.request.urlopen('https://127.0.0.1:8443/health/ready',context=ssl.create_default_context(cafile='/run/atlas/server.crt'),timeout=7)"]
+      interval: 15s
+      timeout: 8s
+      start_period: 10s
+      retries: 3

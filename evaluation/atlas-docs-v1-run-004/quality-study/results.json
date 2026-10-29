@@ -1,0 +1,105 @@
+{
+  "protocol": {
+    "official": false,
+    "human_reviewed": false,
+    "holdout": false,
+    "dataset_hash": "576b483d19333a6af28cb49bca72a1f0b5f63ff3d5ab885166edaf00c1e4f46a",
+    "corpus_hash": "4ecf25e3de9b3ea87c67116bf32dd3c1bc814095dbefa56c641687d312ea9f05",
+    "generator": {
+      "mode": "hybrid",
+      "k": 5,
+      "retrieval_version": "rrf60-depth20-v1",
+      "experiment_id": "automated-quality-study",
+      "corpus_version": "atlas-docs-v1",
+      "chunking_version": "utf8-literal-v1-400-80",
+      "model_id": "all-minilm:latest",
+      "model_digest": "1b226e2802dbb772b5fc32a58f103ca1804ef7501331012de126ab22f67475ef",
+      "generate_answers": true,
+      "generation_model_id": "qwen3:1.7b",
+      "generation_model_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+      "prompt_version": "extractive-grounding-v2"
+    },
+    "study_model": "qwen3:1.7b",
+    "study_model_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+    "reranker_prompt": "listwise-relevance-v1",
+    "judge_prompt": "fact-relevance-status-v2-exact-counts",
+    "candidate_depth": 20,
+    "k": 5,
+    "temperature": 0,
+    "seed": 0,
+    "workload": "serial, shared local host",
+    "retention_gate": {
+      "recall_gain_min": 0.02,
+      "mrr_regression_max": 0,
+      "additional_failures_max": 0,
+      "added_p95_ms_max": 2000
+    },
+    "limitations": [
+      "AI draft labels",
+      "same generator and judge",
+      "no human calibration",
+      "canonical spans omit equivalent relevant passages",
+      "no untouched holdout"
+    ]
+  },
+  "summary": {
+    "baseline_recall": {
+      "value": 0.65625,
+      "count": 80
+    },
+    "baseline_mrr": {
+      "value": 0.5377083333333333,
+      "count": 80
+    },
+    "reranked_recall": {
+      "value": 0.6408450704225352,
+      "count": 71
+    },
+    "reranked_mrr": {
+      "value": 0.5197183098591549,
+      "count": 71
+    },
+    "abstention_correct": {
+      "value": 0.3382352941176471,
+      "count": 68
+    },
+    "model_fact_coverage": {
+      "value": 0.90625,
+      "count": 48
+    },
+    "model_claim_relevance": {
+      "value": 1.0,
+      "count": 3
+    },
+    "model_status_appropriate": {
+      "value": 0.6470588235294118,
+      "count": 68
+    },
+    "attempted": 100,
+    "paired_baseline_recall": {
+      "value": 0.6408450704225352,
+      "count": 71
+    },
+    "paired_baseline_mrr": {
+      "value": 0.513849765258216,
+      "count": 71
+    },
+    "reranked_recall_failures_as_zero": {
+      "value": 0.56875,
+      "count": 80
+    },
+    "reranked_mrr_failures_as_zero": {
+      "value": 0.46125,
+      "count": 80
+    },
+    "rerank_failed": 11,
+    "answer_failed": 32,
+    "judge_failed": 32,
+    "reranking_p95_ms": 2529.5427998062223
+  },
+  "development_gate_passed": false,
+  "application_enabled": false,
+  "human_ratings": null,
+  "compute_cost_usd": null,
+  "provider_service_fee_usd": 0
+}

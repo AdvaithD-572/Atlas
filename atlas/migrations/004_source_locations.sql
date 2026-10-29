@@ -1,0 +1,2 @@
+ALTER TABLE chunks ADD COLUMN page_number INTEGER CHECK(page_number BETWEEN 1 AND 200);
+ALTER TABLE chunks ADD COLUMN heading TEXT;

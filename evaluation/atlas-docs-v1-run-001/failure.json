@@ -1,0 +1,13 @@
+{
+  "status": "failed_before_evaluation",
+  "official": false,
+  "stage": "semantic_indexing_first_source",
+  "chunk_size": 800,
+  "chunk_overlap": 120,
+  "provider_truncate": false,
+  "api_status": 502,
+  "direct_diagnostic_provider_status": 400,
+  "diagnosis": "the input length exceeds the context length",
+  "metrics": null,
+  "follow_up": "Run 002 uses explicitly recorded 400/80 chunking; no failed scores were omitted."
+}

@@ -1,0 +1,35 @@
+{
+  "status": "AI-authored and AI-critiqued development drafts; not human reviewed",
+  "official": false,
+  "case_count": 100,
+  "category_counts": {
+    "direct": 25,
+    "multi_document": 20,
+    "unanswerable": 20,
+    "conflicting_outdated": 15,
+    "difficult": 20
+  },
+  "drafts_sha256": "0fa01afb15237f4edcb1fb1c47265fdd228047ac4bd0ff5eec2b875ccfafdd8a",
+  "sources": {
+    "docs/operations.md": "e385b97f296e9b075b647ac8d7f8cc8df33ba819c58c4736820a1a1071830203",
+    "docs/engineering/provider-evidence.md": "24873439b24b813c26b1baaea4d773d6bc63d83afbbbbaf67d65de6a57556943",
+    "docs/engineering/postgres-evidence.md": "dc2ee2721fdf86fffc419e0d002411a97f24948eb24a3d934b6bf8abcff92f7f",
+    "docs/engineering/vector-evidence.md": "f8607ea01da43b847aec88bfc23480ab71093f2133aa3ce446711976fd55fbe5",
+    "docs/evaluation.md": "ce3d1629b54dfdf005acafc04d64ab542b67b4b3ccd37b17982340ff7f51ecca",
+    "docs/engineering/implementation-plan.md": "84f3b22389c4e465f5140a0faa60f00448bfa870454a909d17a101bf640fff64",
+    "docs/engineering/frontend-evidence.md": "bc650a7895851854d4cf341bd70ca520a0f36daaac1c22d8f0c9c91af9b86958",
+    "docs/engineering/evaluation-evidence.md": "16af7eef649a7dcc2fd44758b402f2cd0a99c59fe77d82dd3472694967cf8006",
+    "docs/engineering/browser-evidence.md": "47af064b021e963cccd5d9df86baa8668701dec78d055080cadfbc1891e25839",
+    "docs/engineering/deployment-evidence.md": "7ae8d94b6e8bc7c8a7680ffc00a9151b04f9feb6c3c07b1ce7a0ca05c9b54700",
+    "README.md": "b00cfee0eae6ccf70f22ba489f2e668d0b4381ef25d8ad78913f8f6e818d32fa",
+    "BUILD_STATE.md": "5085b94ddc269ca73cc2697aadf9b5e4d8079e92d5e56d0301a1525b519027f8"
+  },
+  "binding": "Source spans are real; indexed passage IDs must be bound after ingestion.",
+  "limitations": [
+    "Same agent authored and reviewed cases",
+    "Project-specific corpus",
+    "Repeated facts across categories; no holdout",
+    "Three weak conflict proxies",
+    "No retrieval or answer score has been measured by this preparation command"
+  ]
+}
