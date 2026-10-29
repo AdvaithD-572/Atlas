@@ -1,0 +1,2 @@
+# Frozen evaluation evidence is byte-addressed: preserve its hashes and spans.
+evaluation/atlas-docs-v1/** -text
